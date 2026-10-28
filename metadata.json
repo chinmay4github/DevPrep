@@ -1,0 +1,6 @@
+{
+  "name": "DevPrep",
+  "description": "Senior Mobile Engineer interview prep app featuring interactive 3D flip flashcards, MCQ quizzes with score tracking, and persistent Room database storage.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
