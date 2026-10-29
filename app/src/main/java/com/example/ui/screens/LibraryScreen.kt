@@ -98,18 +98,18 @@ fun LibraryScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { viewModel.openAddQuestionSheet() },
-                containerColor = SunnyYellow,
-                contentColor = Color.White,
-                shape = RoundedCornerShape(20.dp),
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                shape = RoundedCornerShape(16.dp),
                 modifier = Modifier.testTag("add_question_fab")
             ) {
                 Row(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add custom question")
+                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add question")
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text("New Card ✨", fontWeight = FontWeight.ExtraBold)
+                    Text("Add Question", fontWeight = FontWeight.Bold)
                 }
             }
         },
@@ -123,19 +123,19 @@ fun LibraryScreen(
         ) {
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Cheerful Search Bar
+            // Modern Search Bar
             OutlinedTextField(
                 value = uiState.searchQuery,
                 onValueChange = { viewModel.onSearchQueryChanged(it) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .testTag("search_input"),
-                placeholder = { Text("Search coding puzzles, topics, secrets... 🔍") },
+                placeholder = { Text("Search interview questions, tokens, room...") },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Search,
                         contentDescription = null,
-                        tint = PlayfulPurplePrimary
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 },
                 trailingIcon = {
@@ -146,7 +146,7 @@ fun LibraryScreen(
                     }
                 },
                 singleLine = true,
-                shape = RoundedCornerShape(22.dp)
+                shape = RoundedCornerShape(16.dp)
             )
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -161,19 +161,19 @@ fun LibraryScreen(
                 LibraryFilter.entries.forEach { filter ->
                     val isSelected = uiState.selectedFilter == filter
                     val label = when (filter) {
-                        LibraryFilter.ALL -> "🌈 All (${uiState.questions.size})"
-                        LibraryFilter.BOOKMARKED -> "⭐ Starred"
-                        LibraryFilter.MASTERED -> "🏆 Mastered"
-                        LibraryFilter.NEEDS_PRACTICE -> "🌱 Needs Practice"
+                        LibraryFilter.ALL -> "All (${uiState.questions.size})"
+                        LibraryFilter.BOOKMARKED -> "Starred"
+                        LibraryFilter.MASTERED -> "Mastered"
+                        LibraryFilter.NEEDS_PRACTICE -> "Needs Practice"
                     }
                     FilterChip(
                         selected = isSelected,
                         onClick = { viewModel.onFilterSelected(filter) },
-                        label = { Text(label, fontWeight = FontWeight.Bold) },
-                        shape = RoundedCornerShape(18.dp),
+                        label = { Text(label, fontWeight = FontWeight.SemiBold) },
+                        shape = RoundedCornerShape(12.dp),
                         colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = PlayfulPurplePrimary,
-                            selectedLabelColor = Color.White
+                            selectedContainerColor = MaterialTheme.colorScheme.primary,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary
                         )
                     )
                 }

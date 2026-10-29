@@ -14,7 +14,8 @@ import com.example.domain.model.QuestionType
         Index(value = ["category"]),
         Index(value = ["difficulty"]),
         Index(value = ["isMastered"]),
-        Index(value = ["isBookmarked"])
+        Index(value = ["isBookmarked"]),
+        Index(value = ["mastery"])
     ]
 )
 data class QuestionEntity(
@@ -33,6 +34,7 @@ data class QuestionEntity(
     val difficulty: String, // Difficulty name
     val isBookmarked: Boolean = false,
     val isMastered: Boolean = false,
+    val mastery: Int = 0, // Number of times user has correctly guessed this card
     val questionType: String, // QuestionType name
     val userNotes: String? = null,
     val createdAt: Long = System.currentTimeMillis()
@@ -65,7 +67,8 @@ data class QuestionEntity(
             followUpInterviewerQuestion = followUpInterviewerQuestion,
             difficulty = diff,
             isBookmarked = isBookmarked,
-            isMastered = isMastered,
+            isMastered = isMastered || mastery >= 5,
+            mastery = mastery,
             questionType = type,
             userNotes = userNotes,
             createdAt = createdAt
@@ -88,7 +91,8 @@ data class QuestionEntity(
                 followUpInterviewerQuestion = question.followUpInterviewerQuestion,
                 difficulty = question.difficulty.name,
                 isBookmarked = question.isBookmarked,
-                isMastered = question.isMastered,
+                isMastered = question.isMastered || question.mastery >= 5,
+                mastery = question.mastery,
                 questionType = question.questionType.name,
                 userNotes = question.userNotes,
                 createdAt = question.createdAt

@@ -133,12 +133,12 @@ fun StatsScreen(
             ) {
                 Column {
                     Text(
-                        text = "Trophy Room & Star Tracker 🏆",
+                        text = "Performance & Velocity Analytics 📊",
                         style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.ExtraBold
+                        fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Track daily streaks & badges stored in Room DB ✨",
+                        text = "Real-time metrics, Room database streak history, and domain mastery",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -159,16 +159,16 @@ fun StatsScreen(
             }
         }
 
-        // Mascot Encouragement
+        // Professional Insight Banner
         item {
             val encouragementMsg = if (uiState.streak.currentStreak >= 3) {
-                "Hooray! You're on a ${uiState.streak.currentStreak}-day streak! Keep completing quizzes to earn more awesome kid-friendly badges! 🔥⭐"
+                "Outstanding consistency! You are maintaining an active ${uiState.streak.currentStreak}-day velocity streak with Room DB tracking."
             } else {
-                "Complete a quiz every day! Every 3 consecutive days you'll unlock a shiny kid-friendly streak badge! 🐣⚡"
+                "Complete an assessment daily to build your streak. A milestone achievement unlocks every 3 consecutive days."
             }
             RobbyMascotBubble(
                 message = encouragementMsg,
-                title = "Robby's Hall of Fame 🤖"
+                title = "Consistency & Mastery"
             )
         }
 
@@ -183,16 +183,16 @@ fun StatsScreen(
                         emoji = "👑",
                         title = "High Score",
                         value = "${uiState.stats.highestScore}",
-                        containerColor = SunnyYellowContainer,
-                        accentColor = SunnyYellow,
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        accentColor = com.example.ui.theme.ModernAmber,
                         modifier = Modifier.weight(1f)
                     )
                     KidMetricCard(
                         emoji = "🎯",
                         title = "Avg Accuracy",
                         value = "${uiState.stats.averageScorePercentage}%",
-                        containerColor = MintGreenContainer,
-                        accentColor = MintGreen,
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        accentColor = com.example.ui.theme.ModernEmerald,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -205,16 +205,16 @@ fun StatsScreen(
                         emoji = "🎮",
                         title = "Quizzes Played",
                         value = "${uiState.stats.totalQuizzesTaken}",
-                        containerColor = SkyBlueContainer,
-                        accentColor = SkyBlueSecondary,
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        accentColor = com.example.ui.theme.ModernCyan,
                         modifier = Modifier.weight(1f)
                     )
                     KidMetricCard(
                         emoji = "⭐",
                         title = "Cards Mastered",
                         value = "${uiState.stats.totalQuestionsMastered}/${uiState.stats.totalQuestionsCount}",
-                        containerColor = PlayfulPurpleContainer,
-                        accentColor = PlayfulPurplePrimary,
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        accentColor = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -326,9 +326,10 @@ fun KidStreakSection(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(26.dp),
-        colors = CardDefaults.cardColors(containerColor = SunnyYellowContainer.copy(alpha = 0.55f)),
-        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.35f)),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(modifier = Modifier.padding(18.dp)) {
             // Header Row
@@ -338,16 +339,16 @@ fun KidStreakSection(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = "🔥", fontSize = 28.sp)
+                    Text(text = "🔥", fontSize = 26.sp)
                     Spacer(modifier = Modifier.width(8.dp))
                     Column {
                         Text(
-                            text = "Daily Quiz Streak",
+                            text = "Daily Consistency Streak",
                             style = MaterialTheme.typography.titleSmall,
-                            fontWeight = FontWeight.ExtraBold
+                            fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = "Earn a kid-friendly badge every 3 days! 🏅",
+                            text = "Unlock milestone badges every 3 consecutive days",
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -355,14 +356,14 @@ fun KidStreakSection(
                 }
 
                 Surface(
-                    color = if (streak.hasCompletedQuizToday) MintGreenContainer else SunnyYellowContainer,
-                    shape = RoundedCornerShape(12.dp)
+                    color = if (streak.hasCompletedQuizToday) com.example.ui.theme.ModernEmerald.copy(alpha = 0.15f) else com.example.ui.theme.ModernAmber.copy(alpha = 0.15f),
+                    shape = RoundedCornerShape(10.dp)
                 ) {
                     Text(
                         text = if (streak.hasCompletedQuizToday) "Today Done ✅" else "Pending Today ⏰",
                         style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = if (streak.hasCompletedQuizToday) MintGreen else SunnyYellow,
+                        fontWeight = FontWeight.Bold,
+                        color = if (streak.hasCompletedQuizToday) com.example.ui.theme.ModernEmerald else com.example.ui.theme.ModernAmber,
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                     )
                 }
@@ -373,9 +374,9 @@ fun KidStreakSection(
                 Spacer(modifier = Modifier.height(10.dp))
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
-                    color = Color.White.copy(alpha = 0.85f),
-                    shape = RoundedCornerShape(14.dp),
-                    border = BorderStroke(1.dp, SunnyYellow.copy(alpha = 0.35f))
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    shape = RoundedCornerShape(12.dp),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.25f))
                 ) {
                     Column(modifier = Modifier.padding(10.dp)) {
                         Row(
@@ -392,8 +393,8 @@ fun KidStreakSection(
                             Text(
                                 text = "⚡ Consecutive: $consecutiveDays d",
                                 style = MaterialTheme.typography.labelSmall,
-                                fontWeight = FontWeight.ExtraBold,
-                                color = SunnyYellow
+                                fontWeight = FontWeight.Bold,
+                                color = com.example.ui.theme.ModernAmber
                             )
                         }
                         kidsStreakReward?.let { reward ->
@@ -417,20 +418,20 @@ fun KidStreakSection(
             ) {
                 Surface(
                     modifier = Modifier.weight(1f),
-                    color = Color.White,
-                    shape = RoundedCornerShape(16.dp),
-                    shadowElevation = 1.dp
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    shape = RoundedCornerShape(14.dp),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
                 ) {
                     Column(
                         modifier = Modifier.padding(10.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "🔥", fontSize = 20.sp)
+                        Text(text = "🔥", fontSize = 18.sp)
                         Text(
                             text = "${streak.currentStreak} Days",
-                            fontWeight = FontWeight.ExtraBold,
-                            color = SunnyYellow,
-                            fontSize = 16.sp
+                            fontWeight = FontWeight.Bold,
+                            color = com.example.ui.theme.ModernAmber,
+                            fontSize = 15.sp
                         )
                         Text(
                             text = "Current Streak",
@@ -442,20 +443,20 @@ fun KidStreakSection(
 
                 Surface(
                     modifier = Modifier.weight(1f),
-                    color = Color.White,
-                    shape = RoundedCornerShape(16.dp),
-                    shadowElevation = 1.dp
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    shape = RoundedCornerShape(14.dp),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
                 ) {
                     Column(
                         modifier = Modifier.padding(10.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "🏆", fontSize = 20.sp)
+                        Text(text = "🏆", fontSize = 18.sp)
                         Text(
                             text = "${streak.longestStreak} Days",
-                            fontWeight = FontWeight.ExtraBold,
-                            color = PlayfulPurplePrimary,
-                            fontSize = 16.sp
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontSize = 15.sp
                         )
                         Text(
                             text = "Best Streak",
@@ -467,20 +468,20 @@ fun KidStreakSection(
 
                 Surface(
                     modifier = Modifier.weight(1f),
-                    color = Color.White,
-                    shape = RoundedCornerShape(16.dp),
-                    shadowElevation = 1.dp
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    shape = RoundedCornerShape(14.dp),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
                 ) {
                     Column(
                         modifier = Modifier.padding(10.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "📅", fontSize = 20.sp)
+                        Text(text = "📅", fontSize = 18.sp)
                         Text(
                             text = "${streak.totalActiveDays} Days",
-                            fontWeight = FontWeight.ExtraBold,
-                            color = SkyBlueSecondary,
-                            fontSize = 16.sp
+                            fontWeight = FontWeight.Bold,
+                            color = com.example.ui.theme.ModernCyan,
+                            fontSize = 15.sp
                         )
                         Text(
                             text = "Total Active",
@@ -498,8 +499,9 @@ fun KidStreakSection(
             if (nextBadge != null) {
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
-                    color = Color.White,
-                    shape = RoundedCornerShape(16.dp)
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    shape = RoundedCornerShape(14.dp),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
                 ) {
                     Column(modifier = Modifier.padding(12.dp)) {
                         Row(
@@ -508,15 +510,15 @@ fun KidStreakSection(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "Next Badge: ${nextBadge.name}",
+                                text = "Next Milestone: ${nextBadge.name}",
                                 style = MaterialTheme.typography.bodySmall,
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
                                 text = "${streak.daysUntilNextBadge} day(s) left",
                                 style = MaterialTheme.typography.labelSmall,
-                                fontWeight = FontWeight.ExtraBold,
-                                color = SunnyYellow
+                                fontWeight = FontWeight.Bold,
+                                color = com.example.ui.theme.ModernAmber
                             )
                         }
 
@@ -526,10 +528,10 @@ fun KidStreakSection(
                             progress = { streak.progressToNextBadge },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(8.dp)
-                                .clip(RoundedCornerShape(4.dp)),
-                            color = SunnyYellow,
-                            trackColor = SunnyYellowContainer
+                                .height(6.dp)
+                                .clip(RoundedCornerShape(3.dp)),
+                            color = com.example.ui.theme.ModernAmber,
+                            trackColor = MaterialTheme.colorScheme.background
                         )
                     }
                 }
@@ -781,28 +783,29 @@ fun KidMetricCard(
 ) {
     Card(
         modifier = modifier,
-        shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = containerColor)
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+        border = BorderStroke(1.dp, accentColor.copy(alpha = 0.25f))
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(14.dp),
             horizontalAlignment = Alignment.Start
         ) {
-            Box(
-                modifier = Modifier
-                    .size(38.dp)
-                    .clip(CircleShape)
-                    .background(Color.White.copy(alpha = 0.8f)),
-                contentAlignment = Alignment.Center
+            Surface(
+                modifier = Modifier.size(36.dp),
+                shape = CircleShape,
+                color = accentColor.copy(alpha = 0.15f)
             ) {
-                Text(text = emoji, fontSize = 20.sp)
+                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                    Text(text = emoji, fontSize = 18.sp)
+                }
             }
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = value,
-                fontSize = 22.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = accentColor
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 text = title,

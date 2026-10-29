@@ -3,11 +3,13 @@ package com.example.ui.screens
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +25,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
@@ -39,6 +42,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
@@ -98,10 +102,10 @@ fun FlashcardScreen(
             .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Cheerful Mascot Welcome Banner
+        // Professional Welcome Banner
         RobbyMascotBubble(
-            message = "Welcome, Super Coder! Tap any card to do a Magic Flip and reveal the secret answer! 🚀✨",
-            title = "Robby the Coding Buddy says: 🤖"
+            message = "Tap the card or flip button to toggle between the question scenario and deep-dive technical solution.",
+            title = "Flashcard Study Mode 💡"
         )
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -117,7 +121,7 @@ fun FlashcardScreen(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        // Progress bar and Card Counter with Star badges
+        // Progress bar and Card Counter with badges
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -125,18 +129,18 @@ fun FlashcardScreen(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Surface(
-                    color = PlayfulPurpleContainer,
-                    shape = RoundedCornerShape(16.dp)
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    shape = RoundedCornerShape(12.dp)
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
                     ) {
                         Text(
-                            text = "Card ${uiState.currentIndex + 1} of ${uiState.totalCount} 🚀",
+                            text = "Card ${uiState.currentIndex + 1} of ${uiState.totalCount}",
                             style = MaterialTheme.typography.labelMedium,
-                            color = PlayfulPurplePrimary,
-                            fontWeight = FontWeight.ExtraBold
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            fontWeight = FontWeight.Bold
                         )
                     }
                 }
@@ -144,14 +148,14 @@ fun FlashcardScreen(
                 if (uiState.streak.currentStreak > 0) {
                     Spacer(modifier = Modifier.width(6.dp))
                     Surface(
-                        color = SunnyYellowContainer,
-                        shape = RoundedCornerShape(16.dp)
+                        color = com.example.ui.theme.ModernAmber.copy(alpha = 0.15f),
+                        shape = RoundedCornerShape(12.dp)
                     ) {
                         Text(
                             text = "🔥 ${uiState.streak.currentStreak}d",
                             style = MaterialTheme.typography.labelSmall,
-                            color = SunnyYellow,
-                            fontWeight = FontWeight.ExtraBold,
+                            color = com.example.ui.theme.ModernAmber,
+                            fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp)
                         )
                     }
@@ -219,6 +223,7 @@ fun FlashcardScreen(
                 isFlipped = uiState.isFlipped,
                 onFlip = { viewModel.flipCard() },
                 onToggleBookmark = { viewModel.toggleBookmark() },
+                onCorrectGuess = { viewModel.recordCorrectGuess() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .testTag("flip_card_view")
@@ -242,51 +247,51 @@ fun FlashcardScreen(
                     onClick = { viewModel.markNeedsPractice() },
                     modifier = Modifier
                         .weight(1f)
-                        .height(54.dp)
+                        .height(50.dp)
                         .testTag("needs_practice_button"),
-                    shape = RoundedCornerShape(20.dp),
+                    shape = RoundedCornerShape(14.dp),
                     colors = ButtonDefaults.outlinedButtonColors(
-                        contentColor = BubblegumPink
+                        contentColor = com.example.ui.theme.ModernRose
                     ),
                     border = ButtonDefaults.outlinedButtonBorder.copy(
-                        brush = androidx.compose.ui.graphics.SolidColor(BubblegumPink.copy(alpha = 0.8f))
+                        brush = androidx.compose.ui.graphics.SolidColor(com.example.ui.theme.ModernRose.copy(alpha = 0.6f))
                     )
                 ) {
                     Icon(
                         imageVector = Icons.Default.Replay,
                         contentDescription = null,
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text("Try Again 🌱", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                    Text("Needs Practice", fontWeight = FontWeight.Bold, fontSize = 13.sp)
                 }
 
                 ElevatedButton(
                     onClick = { viewModel.markMastered() },
                     modifier = Modifier
                         .weight(1f)
-                        .height(54.dp)
+                        .height(50.dp)
                         .testTag("mark_mastered_button"),
-                    shape = RoundedCornerShape(20.dp),
+                    shape = RoundedCornerShape(14.dp),
                     colors = ButtonDefaults.elevatedButtonColors(
-                        containerColor = MintGreen,
+                        containerColor = com.example.ui.theme.ModernEmerald,
                         contentColor = Color.White
                     )
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Star,
+                        imageVector = Icons.Default.CheckCircle,
                         contentDescription = null,
-                        tint = SunnyYellow,
-                        modifier = Modifier.size(20.dp)
+                        tint = Color.White,
+                        modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text("I Got It! ⭐", fontWeight = FontWeight.ExtraBold, fontSize = 14.sp)
+                    Text("Mastered", fontWeight = FontWeight.Bold, fontSize = 13.sp)
                 }
             }
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Navigation Controls: Prev, Flip Magic, Next
+            // Navigation Controls: Prev, Flip, Next
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -295,8 +300,8 @@ fun FlashcardScreen(
                 OutlinedButton(
                     onClick = { viewModel.prevCard() },
                     enabled = uiState.currentIndex > 0,
-                    modifier = Modifier.testTag("prev_card_button").height(46.dp),
-                    shape = RoundedCornerShape(18.dp)
+                    modifier = Modifier.testTag("prev_card_button").height(44.dp),
+                    shape = RoundedCornerShape(14.dp)
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -304,28 +309,28 @@ fun FlashcardScreen(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Back", fontWeight = FontWeight.Bold)
+                    Text("Previous", fontWeight = FontWeight.Medium)
                 }
 
                 ElevatedButton(
                     onClick = { viewModel.flipCard() },
-                    modifier = Modifier.height(46.dp),
-                    shape = RoundedCornerShape(18.dp),
+                    modifier = Modifier.height(44.dp),
+                    shape = RoundedCornerShape(14.dp),
                     colors = ButtonDefaults.elevatedButtonColors(
-                        containerColor = SunnyYellowContainer,
-                        contentColor = SunnyYellow
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 ) {
                     Icon(
-                        imageVector = Icons.Default.AutoAwesome,
+                        imageVector = Icons.Default.FlipCameraAndroid,
                         contentDescription = null,
-                        tint = SunnyYellow,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         modifier = Modifier.size(18.dp)
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
+                    Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = if (uiState.isFlipped) "Show Question" else "Magic Flip! ✨",
-                        fontWeight = FontWeight.ExtraBold
+                        text = if (uiState.isFlipped) "Show Question" else "Flip to Answer",
+                        fontWeight = FontWeight.Bold
                     )
                 }
 
@@ -356,6 +361,7 @@ fun InteractiveFlipCard(
     isFlipped: Boolean,
     onFlip: () -> Unit,
     onToggleBookmark: () -> Unit,
+    onCorrectGuess: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val density = LocalDensity.current.density
@@ -377,7 +383,7 @@ fun InteractiveFlipCard(
             containerColor = MaterialTheme.colorScheme.surface
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-        border = androidx.compose.foundation.BorderStroke(
+        border = BorderStroke(
             width = 2.dp,
             color = if (isFlipped) MintGreen.copy(alpha = 0.4f) else PlayfulPurplePrimary.copy(alpha = 0.3f)
         )
@@ -386,12 +392,14 @@ fun InteractiveFlipCard(
             CardFrontContent(
                 question = question,
                 onFlip = onFlip,
-                onToggleBookmark = onToggleBookmark
+                onToggleBookmark = onToggleBookmark,
+                onCorrectGuess = onCorrectGuess
             )
         } else {
             CardBackContent(
                 question = question,
                 onFlip = onFlip,
+                onCorrectGuess = onCorrectGuess,
                 modifier = Modifier.graphicsLayer { rotationY = 180f }
             )
         }
@@ -402,7 +410,8 @@ fun InteractiveFlipCard(
 fun CardFrontContent(
     question: Question,
     onFlip: () -> Unit,
-    onToggleBookmark: () -> Unit
+    onToggleBookmark: () -> Unit,
+    onCorrectGuess: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -433,6 +442,15 @@ fun CardFrontContent(
                 )
             }
         }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        // Card Mastery Progress Bar
+        FlashcardMasteryProgressBar(
+            mastery = question.mastery,
+            targetMastery = 5,
+            onCorrectGuess = onCorrectGuess
+        )
 
         Spacer(modifier = Modifier.height(14.dp))
 
@@ -526,6 +544,7 @@ fun CardFrontContent(
 fun CardBackContent(
     question: Question,
     onFlip: () -> Unit,
+    onCorrectGuess: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -570,6 +589,15 @@ fun CardBackContent(
             }
         }
 
+        Spacer(modifier = Modifier.height(10.dp))
+
+        // Card Mastery Progress Bar
+        FlashcardMasteryProgressBar(
+            mastery = question.mastery,
+            targetMastery = 5,
+            onCorrectGuess = onCorrectGuess
+        )
+
         Spacer(modifier = Modifier.height(14.dp))
 
         Text(
@@ -608,7 +636,7 @@ fun CardBackContent(
             Surface(
                 color = PlayfulPurpleContainer,
                 shape = RoundedCornerShape(18.dp),
-                border = androidx.compose.foundation.BorderStroke(
+                border = BorderStroke(
                     1.5.dp,
                     PlayfulPurplePrimary.copy(alpha = 0.3f)
                 ),
@@ -632,6 +660,125 @@ fun CardBackContent(
                         color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.Medium
                     )
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Mastery Progress Bar on the Flip Card interface.
+ * Tracks and displays how many times a user has correctly guessed the card.
+ */
+@Composable
+fun FlashcardMasteryProgressBar(
+    mastery: Int,
+    targetMastery: Int = 5,
+    onCorrectGuess: (() -> Unit)? = null,
+    modifier: Modifier = Modifier
+) {
+    val progress = (mastery.toFloat() / targetMastery).coerceIn(0f, 1f)
+    val percentage = (progress * 100).toInt()
+    val isFullyMastered = mastery >= targetMastery
+
+    Surface(
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+        shape = RoundedCornerShape(14.dp),
+        border = BorderStroke(
+            width = 1.dp,
+            color = if (isFullyMastered) com.example.ui.theme.ModernEmerald.copy(alpha = 0.6f)
+            else MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f)
+        ),
+        modifier = modifier
+            .fillMaxWidth()
+            .testTag("flashcard_mastery_container")
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = if (isFullyMastered) Icons.Default.CheckCircle else Icons.Default.Psychology,
+                        contentDescription = "Mastery Icon",
+                        tint = if (isFullyMastered) com.example.ui.theme.ModernEmerald else MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(
+                        text = if (isFullyMastered) "Mastered Card ⭐" else "Card Mastery Status",
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = if (isFullyMastered) com.example.ui.theme.ModernEmerald else MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.testTag("flashcard_mastery_text")
+                    )
+                }
+
+                Surface(
+                    color = if (isFullyMastered) com.example.ui.theme.ModernEmerald.copy(alpha = 0.15f)
+                    else MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Text(
+                        text = "$mastery / $targetMastery ($percentage%)",
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = if (isFullyMastered) com.example.ui.theme.ModernEmerald else MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            LinearProgressIndicator(
+                progress = { progress },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(8.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .testTag("flashcard_mastery_progress_bar"),
+                color = if (isFullyMastered) com.example.ui.theme.ModernEmerald else MaterialTheme.colorScheme.primary,
+                trackColor = MaterialTheme.colorScheme.surfaceVariant
+            )
+
+            if (onCorrectGuess != null) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = if (mastery == 0) "Correctly guess to build mastery" else "$mastery correct guesses recorded",
+                        style = MaterialTheme.typography.bodySmall,
+                        fontSize = 11.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    FilledTonalButton(
+                        onClick = onCorrectGuess,
+                        modifier = Modifier
+                            .height(32.dp)
+                            .testTag("correct_guess_button"),
+                        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 2.dp),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = null,
+                            modifier = Modifier.size(14.dp)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "+1 Correct",
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
         }

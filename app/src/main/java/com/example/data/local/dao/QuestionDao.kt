@@ -87,6 +87,15 @@ interface QuestionDao {
     @Query("UPDATE questions SET isMastered = NOT isMastered WHERE id = :id")
     suspend fun toggleMastered(id: Long)
 
+    @Query("UPDATE questions SET mastery = mastery + 1, isMastered = CASE WHEN mastery + 1 >= 5 THEN 1 ELSE isMastered END WHERE id = :id")
+    suspend fun incrementMastery(id: Long)
+
+    @Query("UPDATE questions SET mastery = :mastery, isMastered = CASE WHEN :mastery >= 5 THEN 1 ELSE 0 END WHERE id = :id")
+    suspend fun updateMastery(id: Long, mastery: Int)
+
+    @Query("UPDATE questions SET mastery = CASE WHEN mastery > 0 THEN mastery - 1 ELSE 0 END WHERE id = :id")
+    suspend fun decrementMastery(id: Long)
+
     @Query("UPDATE questions SET userNotes = :notes WHERE id = :id")
     suspend fun updateNotes(id: Long, notes: String?)
 

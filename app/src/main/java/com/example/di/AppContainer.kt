@@ -45,7 +45,7 @@ class DefaultAppContainer(private val context: Context) : AppContainer {
     }
 
     override val questionRepository: QuestionRepository by lazy {
-        QuestionRepositoryImpl(database.questionDao(), database.categoryDao())
+        QuestionRepositoryImpl(database.questionDao(), database.categoryDao(), database.flashcardDao())
     }
 
     override val quizRepository: QuizRepository by lazy {

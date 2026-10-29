@@ -11,52 +11,56 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
-private val PlayfulDarkColorScheme = darkColorScheme(
-    primary = PlayfulPurplePrimaryLight,
+private val ModernDarkColorScheme = darkColorScheme(
+    primary = ModernIndigoPrimary,
     onPrimary = Color.White,
-    primaryContainer = Color(0xFF4C1D95),
-    onPrimaryContainer = PlayfulPurpleContainer,
-    secondary = SkyBlueSecondaryLight,
-    onSecondary = Color(0xFF0C4A6E),
-    secondaryContainer = Color(0xFF0369A1),
-    onSecondaryContainer = SkyBlueContainer,
-    tertiary = SunnyYellowLight,
-    onTertiary = Color(0xFF78350F),
-    background = StarryNightBg,
-    surface = StarryNightSurface,
-    surfaceVariant = StarryNightSurfaceVariant,
-    onBackground = StarryNightOnSurface,
-    onSurface = StarryNightOnSurface,
-    outline = StarryNightOutline,
-    error = RoseError
+    primaryContainer = ModernIndigoContainerDark,
+    onPrimaryContainer = ModernIndigoOnContainer,
+    secondary = ModernCyan,
+    onSecondary = Color(0xFF083344),
+    secondaryContainer = ModernCyanContainerDark,
+    onSecondaryContainer = Color(0xFFA5F3FC),
+    tertiary = ModernAmber,
+    onTertiary = Color(0xFF451A03),
+    tertiaryContainer = ModernAmberContainerDark,
+    onTertiaryContainer = Color(0xFFFDE68A),
+    background = SlateBackgroundDark,
+    surface = SlateSurfaceDark,
+    surfaceVariant = SlateSurfaceVariantDark,
+    onBackground = SlateOnBackgroundDark,
+    onSurface = SlateOnSurfaceDark,
+    onSurfaceVariant = SlateOnSurfaceVariantDark,
+    outline = SlateOutlineDark,
+    error = ModernRose
 )
 
-private val PlayfulLightColorScheme = lightColorScheme(
-    primary = PlayfulPurplePrimary,
+private val ModernLightColorScheme = lightColorScheme(
+    primary = ModernIndigoLight,
     onPrimary = Color.White,
-    primaryContainer = PlayfulPurpleContainer,
-    onPrimaryContainer = PlayfulPurpleOnContainer,
-    secondary = SkyBlueSecondary,
+    primaryContainer = ModernIndigoContainerLight,
+    onPrimaryContainer = Color(0xFF312E81),
+    secondary = ModernCyanDark,
     onSecondary = Color.White,
-    secondaryContainer = SkyBlueContainer,
-    onSecondaryContainer = SkyBlueOnContainer,
-    tertiary = SunnyYellow,
+    secondaryContainer = ModernCyanContainerLight,
+    onSecondaryContainer = Color(0xFF0C4A6E),
+    tertiary = ModernAmberDark,
     onTertiary = Color.White,
-    tertiaryContainer = SunnyYellowContainer,
-    onTertiaryContainer = SunnyYellowOnContainer,
-    background = WarmBgLight,
-    surface = WarmSurfaceLight,
-    surfaceVariant = WarmSurfaceVariantLight,
-    onBackground = WarmOnSurfaceLight,
-    onSurface = WarmOnSurfaceLight,
-    outline = WarmOutlineLight,
-    error = RoseError
+    tertiaryContainer = ModernAmberContainerLight,
+    onTertiaryContainer = Color(0xFF78350F),
+    background = SlateBackgroundLight,
+    surface = SlateSurfaceLight,
+    surfaceVariant = SlateSurfaceVariantLight,
+    onBackground = SlateOnBackgroundLight,
+    onSurface = SlateOnSurfaceLight,
+    onSurfaceVariant = SlateOnSurfaceVariantLight,
+    outline = SlateOutlineLight,
+    error = ModernRose
 )
 
 @Composable
 fun MyApplicationTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false, // Always enforce our custom playful kid-friendly theme!
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val colorScheme = when {
@@ -64,8 +68,8 @@ fun MyApplicationTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-        darkTheme -> PlayfulDarkColorScheme
-        else -> PlayfulLightColorScheme
+        darkTheme -> ModernDarkColorScheme
+        else -> ModernLightColorScheme
     }
 
     MaterialTheme(

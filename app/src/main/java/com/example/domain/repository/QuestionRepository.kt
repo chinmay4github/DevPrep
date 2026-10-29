@@ -27,6 +27,9 @@ interface QuestionRepository {
     suspend fun getQuestionsForQuiz(category: Category?, count: Int, difficulty: Difficulty?): List<Question>
     suspend fun toggleBookmark(id: Long)
     suspend fun toggleMastered(id: Long)
+    suspend fun incrementMastery(id: Long)
+    suspend fun updateMastery(id: Long, mastery: Int)
+    suspend fun decrementMastery(id: Long)
     suspend fun updateNotes(id: Long, notes: String?)
     suspend fun insertQuestion(question: Question): Long
     suspend fun deleteQuestion(id: Long)

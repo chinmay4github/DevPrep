@@ -1,6 +1,7 @@
 package com.example.data.repository
 
 import com.example.data.local.dao.CategoryDao
+import com.example.data.local.dao.FlashcardDao
 import com.example.data.local.dao.QuestionDao
 import com.example.data.local.entity.CategoryEntity
 import com.example.data.local.entity.QuestionEntity
@@ -14,7 +15,8 @@ import kotlinx.coroutines.flow.map
 
 class QuestionRepositoryImpl(
     private val questionDao: QuestionDao,
-    private val categoryDao: CategoryDao
+    private val categoryDao: CategoryDao,
+    private val flashcardDao: FlashcardDao? = null
 ) : QuestionRepository {
 
     override fun getAllQuestions(): Flow<List<Question>> {
@@ -86,6 +88,22 @@ class QuestionRepositoryImpl(
 
     override suspend fun toggleMastered(id: Long) {
         questionDao.toggleMastered(id)
+        flashcardDao?.toggleMastered(id)
+    }
+
+    override suspend fun incrementMastery(id: Long) {
+        questionDao.incrementMastery(id)
+        flashcardDao?.incrementMastery(id)
+    }
+
+    override suspend fun updateMastery(id: Long, mastery: Int) {
+        questionDao.updateMastery(id, mastery)
+        flashcardDao?.updateMastery(id, mastery)
+    }
+
+    override suspend fun decrementMastery(id: Long) {
+        questionDao.decrementMastery(id)
+        flashcardDao?.decrementMastery(id)
     }
 
     override suspend fun updateNotes(id: Long, notes: String?) {

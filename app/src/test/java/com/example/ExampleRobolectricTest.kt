@@ -105,4 +105,48 @@ class ExampleRobolectricTest {
     val streakCounters = db.streakCounterDao().getAllCompletionDatesSync()
     assertEquals(6, streakCounters.size)
   }
+
+  @Test
+  fun `flashcard entity and question entity have mastery status field tracking correct guesses`() = runBlocking {
+    // 1. Test FlashcardEntity mastery field and DAO tracking
+    val flashcard = com.example.data.local.entity.FlashcardEntity(
+      id = 101,
+      title = "Compose Recomposition",
+      questionText = "How does Compose optimize recomposition?",
+      answerSummary = "Compose skips composables whose parameters haven't changed.",
+      mastery = 0
+    )
+    val cardId = db.flashcardDao().insert(flashcard)
+    val initialCard = db.flashcardDao().getFlashcardById(cardId)
+    assertEquals(0, initialCard?.mastery)
+
+    // User guesses correctly -> increment mastery
+    db.flashcardDao().incrementMastery(cardId)
+    val cardAfterGuess1 = db.flashcardDao().getFlashcardById(cardId)
+    assertEquals(1, cardAfterGuess1?.mastery)
+
+    db.flashcardDao().incrementMastery(cardId)
+    val cardAfterGuess2 = db.flashcardDao().getFlashcardById(cardId)
+    assertEquals(2, cardAfterGuess2?.mastery)
+
+    // 2. Test QuestionEntity mastery field
+    val question = com.example.data.local.entity.QuestionEntity(
+      id = 201,
+      category = "android_arch",
+      title = "StateFlow in ViewModel",
+      questionText = "Why use StateFlow over LiveData in Compose?",
+      optionsJson = "A|||B|||C|||D",
+      answerSummary = "StateFlow is multiplatform and works natively with Compose.",
+      deepDiveExplanation = "Built on Kotlin coroutines.",
+      followUpInterviewerQuestion = "What is SharingStarted.WhileSubscribed?",
+      difficulty = "MEDIUM",
+      questionType = "FLASHCARD",
+      mastery = 0
+    )
+    val questionId = db.questionDao().insertQuestion(question)
+    db.questionDao().incrementMastery(questionId)
+
+    val questionFromDb = db.questionDao().getQuestionById(questionId).first()
+    assertEquals(1, questionFromDb?.mastery)
+  }
 }

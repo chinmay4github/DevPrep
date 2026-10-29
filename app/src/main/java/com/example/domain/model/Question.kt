@@ -15,7 +15,10 @@ data class Question(
     val difficulty: Difficulty = Difficulty.MEDIUM,
     val isBookmarked: Boolean = false,
     val isMastered: Boolean = false,
+    val mastery: Int = 0, // Number of times user has correctly guessed this card
     val questionType: QuestionType = QuestionType.FLASHCARD,
     val userNotes: String? = null,
     val createdAt: Long = System.currentTimeMillis()
 )
+
+typealias Flashcard = Question

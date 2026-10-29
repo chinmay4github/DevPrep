@@ -146,43 +146,49 @@ fun KidQuizSetupScreen(
             .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Cheerful Hero Card
+        // Modern Assessment Hero Card
         Card(
             modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(28.dp),
-            colors = CardDefaults.cardColors(containerColor = PlayfulPurpleContainer),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            shape = RoundedCornerShape(24.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+            border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.4f)),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
         ) {
             Column(
-                modifier = Modifier.padding(22.dp),
+                modifier = Modifier.padding(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(64.dp)
-                        .clip(CircleShape)
-                        .background(SunnyYellow),
-                    contentAlignment = Alignment.Center
+                Surface(
+                    shape = CircleShape,
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    modifier = Modifier.size(56.dp)
                 ) {
-                    Text(text = "🏆", fontSize = 36.sp)
+                    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                        Icon(
+                            imageVector = Icons.Default.EmojiEvents,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(28.dp)
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = "Coding Super Quiz! 🌟",
+                    text = "Technical Quiz Assessment",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.ExtraBold,
-                    color = PlayfulPurplePrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Center
                 )
 
-                Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "Pick your favorite coding world, choose a fun timer, and win shiny stars!",
+                    text = "Configure topic domain, speed timer, and test senior mobile engineering proficiency.",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center
                 )
             }
@@ -193,8 +199,9 @@ fun KidQuizSetupScreen(
         // Daily Streak Card
         Card(
             modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(22.dp),
-            colors = CardDefaults.cardColors(containerColor = SunnyYellowContainer.copy(alpha = 0.55f))
+            shape = RoundedCornerShape(20.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.35f))
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(
@@ -203,20 +210,28 @@ fun KidQuizSetupScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(text = "🔥", fontSize = 28.sp)
+                        Surface(
+                            shape = CircleShape,
+                            color = com.example.ui.theme.ModernAmber.copy(alpha = 0.15f),
+                            modifier = Modifier.size(38.dp)
+                        ) {
+                            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                                Text(text = "🔥", fontSize = 18.sp)
+                            }
+                        }
                         Spacer(modifier = Modifier.width(10.dp))
                         Column {
                             Text(
-                                text = "Daily Quiz Streak: ${uiState.userDailyStreak.currentStreak} Days!",
+                                text = "Daily Velocity Streak: ${uiState.userDailyStreak.currentStreak} Days",
                                 style = MaterialTheme.typography.titleSmall,
-                                fontWeight = FontWeight.ExtraBold,
-                                color = SunnyYellow
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                             Text(
                                 text = if (uiState.userDailyStreak.hasCompletedQuizToday) {
-                                    "Today's Challenge: Done! ⭐"
+                                    "Today's assessment completed ✅"
                                 } else {
-                                    "Complete today's quiz to protect your streak! 🔥"
+                                    "Complete today's quiz to maintain consistency."
                                 },
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -227,14 +242,14 @@ fun KidQuizSetupScreen(
                     val nextBadge = uiState.userDailyStreak.nextBadge
                     if (nextBadge != null) {
                         Surface(
-                            color = Color.White,
-                            shape = RoundedCornerShape(12.dp)
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                            shape = RoundedCornerShape(10.dp)
                         ) {
                             Text(
                                 text = "${uiState.userDailyStreak.daysUntilNextBadge}d to ${nextBadge.name}",
                                 style = MaterialTheme.typography.labelSmall,
-                                fontWeight = FontWeight.ExtraBold,
-                                color = SunnyYellow,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                             )
                         }
@@ -273,17 +288,17 @@ fun KidQuizSetupScreen(
             Text(
                 text = "⏱️ Question Timer",
                 style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.ExtraBold
+                fontWeight = FontWeight.Bold
             )
             Surface(
-                color = SunnyYellowContainer,
-                shape = RoundedCornerShape(12.dp)
+                color = MaterialTheme.colorScheme.primaryContainer,
+                shape = RoundedCornerShape(10.dp)
             ) {
                 Text(
-                    text = if (uiState.timePerQuestionSeconds > 0) "${uiState.timePerQuestionSeconds}s Countdown" else "No Rush! 🎈",
+                    text = if (uiState.timePerQuestionSeconds > 0) "${uiState.timePerQuestionSeconds}s Countdown" else "Untimed Mode",
                     style = MaterialTheme.typography.labelSmall,
-                    color = SunnyYellow,
-                    fontWeight = FontWeight.ExtraBold,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
                 )
             }
@@ -298,22 +313,22 @@ fun KidQuizSetupScreen(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             val timerOptions = listOf(
-                15 to "⚡ 15s Super Fast",
+                15 to "⚡ 15s Speed",
                 30 to "🎯 30s Standard",
-                45 to "🧠 45s Big Thinker",
-                60 to "📚 60s Relaxed",
-                0 to "🎈 No Timer (Chill)"
+                45 to "⏱️ 45s Extended",
+                60 to "🧠 60s Analytical",
+                0 to "♾️ Unlimited"
             )
 
             timerOptions.forEach { (seconds, label) ->
                 FilterChip(
                     selected = uiState.timePerQuestionSeconds == seconds,
                     onClick = { onSelectTimePerQuestion(seconds) },
-                    label = { Text(label, fontWeight = FontWeight.Bold) },
-                    shape = RoundedCornerShape(18.dp),
+                    label = { Text(label, fontWeight = FontWeight.SemiBold) },
+                    shape = RoundedCornerShape(14.dp),
                     colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = PlayfulPurplePrimary,
-                        selectedLabelColor = Color.White
+                        selectedContainerColor = MaterialTheme.colorScheme.primary,
+                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary
                     )
                 )
             }
@@ -323,9 +338,9 @@ fun KidQuizSetupScreen(
 
         // Category Selection
         Text(
-            text = "🎨 Pick Your Coding Topic",
+            text = "📁 Select Domain Focus",
             style = MaterialTheme.typography.titleSmall,
-            fontWeight = FontWeight.ExtraBold,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -337,13 +352,13 @@ fun KidQuizSetupScreen(
         ) {
             OutlinedCard(
                 onClick = { onSelectCategory(null) },
-                shape = RoundedCornerShape(18.dp),
+                shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.outlinedCardColors(
-                    containerColor = if (uiState.selectedCategory == null) SunnyYellowContainer.copy(alpha = 0.5f) else MaterialTheme.colorScheme.surface
+                    containerColor = if (uiState.selectedCategory == null) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f) else MaterialTheme.colorScheme.surface
                 ),
                 border = androidx.compose.foundation.BorderStroke(
                     width = if (uiState.selectedCategory == null) 2.dp else 1.dp,
-                    color = if (uiState.selectedCategory == null) SunnyYellow else MaterialTheme.colorScheme.outline.copy(alpha = 0.4f)
+                    color = if (uiState.selectedCategory == null) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline.copy(alpha = 0.35f)
                 ),
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -351,12 +366,12 @@ fun KidQuizSetupScreen(
                     modifier = Modifier.padding(14.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "🌈", fontSize = 20.sp)
+                    Text(text = "🌐", fontSize = 18.sp)
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(
-                        text = "All Topics Mix (Super Fun!)",
+                        text = "All Topics (Comprehensive Evaluation)",
                         style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = if (uiState.selectedCategory == null) FontWeight.ExtraBold else FontWeight.Medium
+                        fontWeight = if (uiState.selectedCategory == null) FontWeight.Bold else FontWeight.Medium
                     )
                 }
             }
@@ -365,13 +380,13 @@ fun KidQuizSetupScreen(
                 val isSelected = uiState.selectedCategory == cat
                 OutlinedCard(
                     onClick = { onSelectCategory(cat) },
-                    shape = RoundedCornerShape(18.dp),
+                    shape = RoundedCornerShape(16.dp),
                     colors = CardDefaults.outlinedCardColors(
-                        containerColor = if (isSelected) PlayfulPurpleContainer.copy(alpha = 0.5f) else MaterialTheme.colorScheme.surface
+                        containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f) else MaterialTheme.colorScheme.surface
                     ),
                     border = androidx.compose.foundation.BorderStroke(
                         width = if (isSelected) 2.dp else 1.dp,
-                        color = if (isSelected) PlayfulPurplePrimary else MaterialTheme.colorScheme.outline.copy(alpha = 0.4f)
+                        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline.copy(alpha = 0.35f)
                     ),
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -383,7 +398,7 @@ fun KidQuizSetupScreen(
                         Text(
                             text = cat.displayName,
                             style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = if (isSelected) FontWeight.ExtraBold else FontWeight.Medium
+                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
                         )
                         CategoryBadge(category = cat)
                     }
@@ -395,9 +410,9 @@ fun KidQuizSetupScreen(
 
         // Question Count
         Text(
-            text = "🔢 How Many Questions?",
+            text = "🔢 Question Batch Size",
             style = MaterialTheme.typography.titleSmall,
-            fontWeight = FontWeight.ExtraBold,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -411,28 +426,28 @@ fun KidQuizSetupScreen(
                 FilterChip(
                     selected = uiState.selectedQuestionCount == count,
                     onClick = { onSelectCount(count) },
-                    label = { Text("$count Qs 🚀", fontWeight = FontWeight.Bold) },
-                    shape = RoundedCornerShape(16.dp),
+                    label = { Text("$count Questions", fontWeight = FontWeight.SemiBold) },
+                    shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.weight(1f),
                     colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = SkyBlueSecondary,
-                        selectedLabelColor = Color.White
+                        selectedContainerColor = MaterialTheme.colorScheme.primary,
+                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary
                     )
                 )
             }
         }
 
-        Spacer(modifier = Modifier.height(26.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
-        // Big Chunky Start Button
+        // Modern Start Assessment Button
         Button(
             onClick = onStartQuiz,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(60.dp)
+                .height(54.dp)
                 .testTag("start_quiz_button"),
-            shape = RoundedCornerShape(24.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = SunnyYellow)
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
         ) {
             Text(text = "🚀", fontSize = 22.sp)
             Spacer(modifier = Modifier.width(8.dp))
@@ -700,22 +715,22 @@ fun KidQuizActiveScreen(
 
                 val (badgeColor, badgeBg) = optionBadgeColors[index % optionBadgeColors.size]
 
-                val (bgColor, borderColor, textColor) = when {
+                val (bgColor, borderColor) = when {
                     !uiState.isAnswerSubmitted -> {
                         if (isSelected) {
-                            Triple(PlayfulPurpleContainer, PlayfulPurplePrimary, MaterialTheme.colorScheme.onSurface)
+                            Pair(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f), MaterialTheme.colorScheme.primary)
                         } else {
-                            Triple(MaterialTheme.colorScheme.surface, MaterialTheme.colorScheme.outline.copy(alpha = 0.4f), MaterialTheme.colorScheme.onSurface)
+                            Pair(MaterialTheme.colorScheme.surface, MaterialTheme.colorScheme.outline.copy(alpha = 0.35f))
                         }
                     }
                     isCorrect -> {
-                        Triple(MintGreenContainer, MintGreen, MintGreen)
+                        Pair(com.example.ui.theme.ModernEmerald.copy(alpha = 0.15f), com.example.ui.theme.ModernEmerald)
                     }
                     isSelected && !isCorrect -> {
-                        Triple(BubblegumPinkContainer, BubblegumPink, BubblegumPink)
+                        Pair(com.example.ui.theme.ModernRose.copy(alpha = 0.15f), com.example.ui.theme.ModernRose)
                     }
                     else -> {
-                        Triple(MaterialTheme.colorScheme.surface.copy(alpha = 0.6f), MaterialTheme.colorScheme.outline.copy(alpha = 0.2f), MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                        Pair(MaterialTheme.colorScheme.surface.copy(alpha = 0.5f), MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
                     }
                 }
 
@@ -728,43 +743,48 @@ fun KidQuizActiveScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .testTag("quiz_option_$index"),
-                    shape = RoundedCornerShape(20.dp),
+                    shape = RoundedCornerShape(16.dp),
                     colors = CardDefaults.outlinedCardColors(containerColor = bgColor),
-                    border = androidx.compose.foundation.BorderStroke(2.dp, borderColor)
+                    border = androidx.compose.foundation.BorderStroke(if (isSelected || (uiState.isAnswerSubmitted && isCorrect)) 2.dp else 1.dp, borderColor)
                 ) {
                     Row(
                         modifier = Modifier.padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .size(36.dp)
-                                .clip(CircleShape)
-                                .background(badgeBg),
-                            contentAlignment = Alignment.Center
+                        Surface(
+                            shape = CircleShape,
+                            color = when {
+                                uiState.isAnswerSubmitted && isCorrect -> com.example.ui.theme.ModernEmerald
+                                uiState.isAnswerSubmitted && isSelected && !isCorrect -> com.example.ui.theme.ModernRose
+                                isSelected -> MaterialTheme.colorScheme.primary
+                                else -> MaterialTheme.colorScheme.surfaceVariant
+                            },
+                            modifier = Modifier.size(32.dp)
                         ) {
-                            Text(
-                                text = optionLetter,
-                                fontWeight = FontWeight.ExtraBold,
-                                color = badgeColor,
-                                fontSize = 16.sp
-                            )
+                            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                                Text(
+                                    text = optionLetter,
+                                    fontWeight = FontWeight.Bold,
+                                    color = if (isSelected || (uiState.isAnswerSubmitted && (isCorrect || isSelected))) Color.White else MaterialTheme.colorScheme.onSurfaceVariant,
+                                    fontSize = 13.sp
+                                )
+                            }
                         }
 
-                        Spacer(modifier = Modifier.width(14.dp))
+                        Spacer(modifier = Modifier.width(12.dp))
 
                         Text(
                             text = optionText,
                             style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = if (isSelected || (uiState.isAnswerSubmitted && isCorrect)) FontWeight.ExtraBold else FontWeight.Medium,
-                            color = textColor,
+                            fontWeight = if (isSelected || (uiState.isAnswerSubmitted && isCorrect)) FontWeight.Bold else FontWeight.Normal,
+                            color = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.weight(1f)
                         )
 
                         if (uiState.isAnswerSubmitted) {
                             Spacer(modifier = Modifier.width(8.dp))
                             if (isCorrect) {
-                                Text(text = "🎉", fontSize = 20.sp)
+                                Text(text = "✅", fontSize = 16.sp)
                             } else if (isSelected) {
                                 Text(text = "❌", fontSize = 16.sp)
                             }

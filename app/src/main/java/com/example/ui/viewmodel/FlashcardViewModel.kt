@@ -127,6 +127,22 @@ class FlashcardViewModel(
         }
     }
 
+    fun recordCorrectGuess() {
+        val current = uiState.value.currentQuestion ?: return
+        viewModelScope.launch {
+            toggleQuestionActionsUseCase.recordCorrectGuess(current.id)
+        }
+    }
+
+    fun incrementMastery() = recordCorrectGuess()
+
+    fun decrementMastery() {
+        val current = uiState.value.currentQuestion ?: return
+        viewModelScope.launch {
+            toggleQuestionActionsUseCase.decrementMastery(current.id)
+        }
+    }
+
     fun setCategoryFilter(categoryId: String?) {
         _isFlipped.value = false
         _currentIndex.value = 0
@@ -145,16 +161,21 @@ class FlashcardViewModel(
 
     fun markMastered() {
         val current = uiState.value.currentQuestion ?: return
-        if (!current.isMastered) {
-            toggleMastered()
+        viewModelScope.launch {
+            toggleQuestionActionsUseCase.recordCorrectGuess(current.id)
+            if (!current.isMastered) {
+                toggleQuestionActionsUseCase.toggleMastered(current.id)
+            }
         }
         nextCard()
     }
 
     fun markNeedsPractice() {
         val current = uiState.value.currentQuestion ?: return
-        if (current.isMastered) {
-            toggleMastered()
+        viewModelScope.launch {
+            if (current.mastery > 0) {
+                toggleQuestionActionsUseCase.decrementMastery(current.id)
+            }
         }
         nextCard()
     }
